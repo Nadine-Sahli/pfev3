@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Mauvais mot de passe</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:400,700" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Poppins', sans-serif;
+            background-color: #f2f2f2;
+            color: #444;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+        }
+        
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding-top: 50px;
+            padding-bottom: 50px;
+        }
+        
+        h1 {
+            font-size: 36px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            color: #333;
+            letter-spacing: 1px;
+        }
+        
+        p {
+            font-size: 18px;
+            line-height: 1.5;
+            margin-bottom: 40px;
+        }
+        
+        a {
+            color: #0275d8;
+            text-decoration: none;
+            border-bottom: 2px solid #0275d8;
+            transition: all 0.3s ease;
+        }
+        
+        a:hover {
+            background-color: #0275d8;
+            color: #fff;
+            border-bottom-color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Mauvais mot de passe</h1>
+        <p>Le mot de passe que vous avez entré est incorrect.</p>
+        <p><a href="{% url 'open' %}">Retourner à la page précédente</a></p>
+    </div>
+</body>
+</html>

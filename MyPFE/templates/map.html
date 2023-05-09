@@ -1,0 +1,218 @@
+
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Markers Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+   
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" 
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" 
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" 
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+   
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/leaflet.js"></script>
+
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="{%static 'css/side.css'%}" />
+  
+  <link
+  rel="stylesheet"
+  href="{%static 'bootstrap-5.2.3-dist/css/bootstrap.css'%}"
+/>
+<link rel="stylesheet" href="{% static 'css/style.css' %}" />
+    <link href="//fonts.googleapis.com/css?family=Lobster&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+  
+    <style>
+      #map {
+        height: 500px;
+        width: 100%;
+      }
+      label {
+        color: aliceblue;
+
+      }
+    </style>
+
+  </head>
+  <body  style="background-color:#071b24; ">
+    <!-- <article>
+      color: white; /* set text color */
+      background-color: #555; /* set background color */
+      padding: 20px; /* add padding for better readability */
+      <h1><a href="{% url 'update' %}"">Update</a></h1>
+      <h1>{{ post.title }}</h1>
+      <p>Published: {{ post.published_date }}</p>
+      <p>Temperature: {{ post.temperature }}</p>
+      <p>Humidity: {{ post.humidity }}</p>
+      <p>{{ post.content }}</p>
+    
+    </article> -->
+
+    <!-- <div class="side-panel" id="side-panel">
+      <div id="sidepanel-heading" class="heading">
+        <span id="content-heading">USER PROFILE</span>
+      </div>
+      <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <a href="{% url 'create_projet' %}" class="btn btn-primary">ajouter un projet</a>
+          </div>
+        </div>
+        <div class="card" style="width: 18rem;">
+          <div class="card-body">
+            <a href="{% url 'open' %}"class="btn btn-primary">voir project</a>
+          </div>
+        </div>
+        
+        
+          
+
+ 
+          
+
+          <div class="card" style="width: 18rem;">
+            <div class="card-body">
+              <a href="{% url 'lister_projets' %}" class="btn btn-primary">Liste des projets</a>
+            </div>
+          </div>
+        
+          
+      <div data-position="left" class="side-bar">
+        <div class="item"><i class="fa fa-user"></i></div>
+        <div class="item"><i class="fa fa-users"></i></div>
+        <div class="item"><i class="fa fa-comments-o"></i></div>
+        <div class="item"><i class="fa fa-folder-o"></i></div>
+        <div class="item"><i class="fa fa-file-code-o"></i></div>
+    
+        <div class="item bottom" id="show_hide"><i class="fa fa-angle-double-right"></i></div>
+      </div>
+    </div> -->
+
+    <center>
+      <form method="POST">
+        {% csrf_token %}
+       
+       <div class='col-6 rounded ' id="map" style="width: 1000px;height: 500px; box-sizing:border-box; margin-top: 20px;  border-radius: 50px;">
+          <div class="leaflet-control">
+
+          </div>
+
+        </div>
+       
+<br><br>
+ <label for="lat">Latitude:</label>
+                <input type="text" id="lat" name="Latitude">
+
+                <label for="lng">Longitude:</label>
+                <input type="text" id="lng" name="Longitude">
+
+        <button class="btn btn-dark  mx-auto d-block" style='  font-size: 15px; background-color: darkgreen;' onclick="location.href='#'"> save node</button> 
+        
+        
+        
+        
+
+      </form>
+    </center>
+    <script>
+      
+      
+      // Create a Leaflet map
+      var map = L.map('map').setView([35, 9.5], 8 );
+      
+      
+      L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+            attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+        }).addTo(map);
+
+        // Loop through all the markers and create a new marker for each one
+       
+
+       
+      {% for nodes in all_nodes %}
+       var marker = L.marker([{{nodes.Position.y}},{{nodes.Position.x}}]).addTo(map);
+       marker.bindPopup("<b>{{nodes.Client}}</b><br>Température : {{nodes.Temperature}}<br>Humidité : {{nodes.Humidity}}").openPopup();
+      {% endfor %}
+
+      
+      // Add the GeoJSON polygon to the map
+      
+      
+      // Add the client name to the page
+      
+      
+      
+      
+      var markers = [];
+      map.on("click", function (e) {
+          // If marker is already defined, remove it before adding a new one
+          if (marker) {
+            map.removeLayer(marker);
+          }
+          // Add new marker at double-clicked location
+          var marker = L.marker(e.latlng, { draggable: true }).addTo(map);
+          markers.push(marker);
+          document.getElementById("lat").value = e.latlng.lat;
+          document.getElementById("lng").value = e.latlng.lng;
+      
+          marker.on("dragend", function (e) {
+            var marker = e.target;
+            var position = marker.getLatLng();
+            document.getElementById("lat").value = position.lat;
+            document.getElementById("lng").value = position.lng;
+          });
+        });
+        function removeAllMarkers() {
+          for (var i = 0; i < markers.length; i++) {
+            map.removeLayer(markers[i]);
+          }
+          markers = [];
+        }
+      
+        // Retrieve all marker positions
+        function getMarkerPositions() {
+          var Positions = [];
+          for (var i = 0; i < markers.length; i++) {
+            Positions.push(markers[i].getLatLng());
+          }
+          return Positions;
+        }
+        
+  
+ 
+      </script>
+
+      <!-- <script>
+        let EventHandler = {
+  ShowHideSideBar: function(){
+    if (document.getElementById("side-panel").className.indexOf("open") !== -1){
+      document.getElementById("side-panel").className = "side-panel"
+      document.getElementById("side-panel").className += " close"
+      document.getElementById('show_hide').childNodes[0].className = "fa fa-angle-double-right"
+      return
+    }
+    
+    document.getElementById("side-panel").className = "side-panel"
+    document.getElementById("side-panel").className += " open"
+    document.getElementById('show_hide').childNodes[0].className = "fa fa-angle-double-left"
+  }
+}
+
+window.onload = () => {
+  document.getElementById('show_hide').onclick = EventHandler.ShowHideSideBar
+}
+      </script> -->
+  </body>
+</html>
+
+  
+

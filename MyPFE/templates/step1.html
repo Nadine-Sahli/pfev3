@@ -1,0 +1,192 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un projet</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <style>
+        body {
+               background-color:rgb(143, 224, 143); 
+               background-size: cover;
+               background-image: url("/static/images/forest3.PNG");
+        }
+        .previous {
+            background-color: #107c3f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+
+            /* float: right; */
+            margin-top: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #3c8341;
+            margin-top: 30px;
+        }
+
+        form {
+            max-width: 500px;
+            margin: 0 auto;
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 5px;
+            box-shadow: 0px 0px 10px #ccc;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            border-radius: 3px;
+            border: 1px solid #ccc;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        input[type="submit"] {
+            background-color: #107c3f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+
+        input[type="submit"]:hover {
+            background-color: #107c3f;
+        }
+        
+        .next {
+            background-color: #107c3f;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 3px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            float: right;
+            margin-top: 20px;
+        }
+
+        .next:hover {
+            background-color: #107c3f;
+        }
+        
+     
+    </style>
+</head>
+<body class="bg-img" onload="initStartDatePicker()">
+    <h1>Ajouter un projet</h1>
+    <form method="POST">
+        {% csrf_token %}
+        <fieldset>
+            <legend>Etape 1</legend>
+            <label for="Nom_projet">Nom du projet:</label>
+            <input type="text" id="Nom_projet" name="Nom_projet"><br><br>
+
+            <label for="Nom">Nom:</label>
+            <input type="text" id="Nom" name="Nom"><br><br>
+
+            <label for="prenom">Prénom:</label>
+            <input type="text" id="prenom" name="prenom"><br><br>
+            <input type="button" class="next" value="Suivant" onclick="showNext()">
+        </fieldset>
+
+        <fieldset>
+            <legend>Etape 2</legend>
+            <label for="NB_GSM">GSM:</label>
+            <input type="text" id="NB_GSM" name="NB_GSM"><br><br>
+
+            <label for="pseudo">Pseudo:</label>
+            <input type="text" id="pseudo" name="pseudo"><br><br>
+
+            <label for="e_mail">Email:</label>
+            <input type="text" id="e_mail" name="e_mail"><br><br>
+
+            <label for="reference">Référence:</label>
+            <input type="text" id="reference" name="reference"><br><br>
+            <input type="button" class="previous" value="précedent" onclick="showPrevious()">
+            <input type="button" class="next" value="Suivant" onclick="showNext()">
+        </fieldset>
+
+        <fieldset>
+            <legend>Etape 3</legend>
+            <label for="start_date">Date de début:</label>
+            <input type="text" id="start_date" name="start_date">
+      
+            <label for="end_date">Date de fin (après la date de début):</label>
+            <input type="text" id="end_date" name="end_date" readonly onclick="openDatePicker()">
+
+            <label for="password">password:</label>
+            <input type="text" id="password" name="password"><br><br>
+            <input type="button" class="previous" value="Précédent" onclick="showPrevious()">
+            <input type="submit" value="Ajouter">
+        </fieldset>
+      </form>
+      <script>
+        const form = document.querySelector('form');
+        const fieldsets = form.querySelectorAll('fieldset');
+        let current = 0;
+        
+        function showNext() {
+            fieldsets[current].style.display = 'none';
+            current++;
+            if (current < fieldsets.length) {
+                fieldsets[current].style.display = 'block';
+            } else {
+                form.submit();
+            }
+        }
+        function showPrevious() {
+            fieldsets[current].style.display = 'none';
+            current--;
+            if (current >= 0) {
+                fieldsets[current].style.display = 'block';
+            } else {
+                current = 0;
+            }
+        }
+        
+        function initForm() {
+            for (let i = 1; i < fieldsets.length; i++) {
+                fieldsets[i].style.display = 'none';
+            }
+            form.addEventListener('submit', function (e) {
+                e.preventDefault();
+                showNext();
+            });
+        }
+        
+        window.addEventListener('load', initForm);
+    </script>
+       <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $( function() {
+            // Initialize start_date datepicker
+            $( "#start_date" ).datepicker({
+                onSelect: function(selectedDate) {
+                    // When start_date is selected, set the minimum date for end_date to be the same or later
+                    $( "#end_date" ).datepicker( "option", "minDate", selectedDate );
+                }
+            });
+    
+            // Initialize end_date datepicker with a minimum date set to start_date value
+            $( "#end_date" ).datepicker({
+                minDate: $( "#start_date" ).val()
+            });
+        } );
+    </script> 
+</body>      

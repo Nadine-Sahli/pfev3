@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>Simple DataTable</title>
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.11.3/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.1/css/buttons.dataTables.min.css">
+	<style>
+		body {
+			margin: 2em;
+		}
+
+		thead input {
+			width: 100%;
+			padding: 3px;
+			box-sizing: border-box;
+		}
+	</style>
+</head>
+<body>
+  <table id="example" class="display" style="width:100%">
+    <thead>
+      <tr>
+        <th class="header nom-projet-header" data-column="Nom_projet">Nom du projet</th>
+        <th class="header nom-header" data-column="Nom">Nom</th>
+        <th class="header prenom-header" data-column="prenom">Prénom</th>
+        <th class="header nb-gsm-header" data-column="NB_GSM">Nombre GSM</th>
+        <th class="header pseudo-header" data-column="pseudo">Pseudo</th>
+        <th class="header e-mail-header" data-column="e_mail">Email</th>
+        <th class="header reference-header" data-column="reference">Référence</th>
+        <th class="header password-header" data-column="password">Password</th>
+        <th class="header id-header" data-column="id">id</th>
+        <th class="header start-date-header" data-column="start_date">Date de début</th>
+        <th class="header end-date-header" data-column="end_date">Date de fin</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for projet in projets %}
+        <tr>
+          <td class="nom-projet-cell">{{ projet.Nom_projet }}</td>
+          <td class="nom-cell">{{ projet.Nom }}</td>
+          <td class="prenom-cell">{{ projet.prenom }}</td>
+          <td class="nb-gsm-cell">{{ projet.NB_GSM }}</td>
+          <td class="pseudo-cell">{{ projet.pseudo }}</td>
+          <td class="e-mail-cell">{{ projet.e_mail }}</td>
+          <td class="reference-cell">{{ projet.reference }}</td>
+          <td class="password-cell">{{ projet.password }}</td>
+          <td class="id-cell">{{ projet.id }}</td>
+          <td class="start-date-cell">{{ projet.start_date }}</td>
+          <td class="end-date-cell">{{ projet.end_date }}</td>
+        </tr>
+      {% empty %}
+        <tr>
+          <td colspan="11">Aucun projet trouvé.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+		<!-- <thead>
+			<tr>
+				<th>Name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+			</tr>
+		</thead>
+		<tfoot>
+			<tr>
+				<th>Name</th>
+				<th>Position</th>
+				<th>Office</th>
+				<th>Age</th>
+				<th>Start date</th>
+				<th>Salary</th>
+			</tr>
+		</tfoot>
+		<tbody>
+			<tr>
+				<td>Brielle Williamson</td>
+				<td>Integration Specialist</td>
+				<td>New York</td>
+				<td>61</td>
+				<td>2012/12/02</td>
+				<td>$372,000</td>
+			</tr>
+			<tr>
+				<td>Ashton Cox</td>
+				<td>Junior Technical Author</td>
+				<td>San Francisco</td>
+				<td>66</td>
+				<td>2009/01/12</td>
+				<td>$86,000</td>
+			</tr>
+			<tr>
+				<td>Airi Satou</td>
+				<td>Accountant</td>
+				<td>Tokyo</td>
+				<td>33</td>
+				<td>2008/11/28</td>
+				<td>$162,700</td>
+			</tr>
+			<tr>
+				<td>Angelica Ramos</td>
+				<td>Chief Executive Officer (CEO)</td>
+				<td>London</td>
+				<td>47</td>
+				<td>2009/10/09</td>
+				<td>$1,200,000</td>
+			</tr>
+		</tbody> -->
+	</table>
+
+	<script type="text/javascript" src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+	<script type="text/javascript" src="https://cdn.datatables.net/v/dt/dt-1.10.25/datatables.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function () {
+			//Only needed for the filename of export files.
+			//Normally set in the title tag of your page.
+			document.title = "Simple DataTable";
+			// Create search inputs in footer
+			$("#example tfoot th").each(function () {
+				var title = $(this).text();
+				$(this).html('<input type="text" placeholder="Search ' + title + '" />');
+			});
+      // DataTable initialisation
+	var table = $("#example").DataTable({
+		dom: '<"dt-buttons"Bf><"clear">lirtp',
+		paging: true,
+		autoWidth: true,
+		buttons: [
+			"colvis",
+			"copyHtml5",
+			"csvHtml5",
+			"excelHtml5",
+			"pdfHtml5",
+			"print"
+		],
+		initComplete: function (settings, json) {
+			var footer = $("#example tfoot tr");
+			$("#example thead").append(footer);
+		}
+	});
+
+	// Apply the search
+	$("#example thead").on("keyup", "input", function () {
+		table.column($(this).parent().index())
+		.search(this.value)
+		.draw();
+	});
+});
+
+</script>
+</body>
+</html>

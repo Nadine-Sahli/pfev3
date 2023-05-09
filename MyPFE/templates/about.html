@@ -1,0 +1,54 @@
+{% extends 'navbar.html' %} {% block content %}
+{% load static %}
+
+
+
+<body>
+  <!-- place your nav bar here -->
+  
+
+  <div class="container">
+
+    <div class="wrapper">
+      <div class="hr">
+        <hr>
+        <h2>Notre Mission</h2>
+        <hr>
+      </div>
+
+      <p class="mission-txt">"Fournir une compostage de qualité à faible coûtt"</p>
+
+    </div>
+
+    <div class="wrapper">
+      <h2>About</h2>
+      <div>
+        <div class="unit">
+        <img src="{%static 'images\kk.PNG'%}"  width="600px" />
+        </div>
+        <p>Notre solution sert  a controler la qualité de notre compostage par notre produit qui va envoyer les valeurs exactes duhimidité et température a cette application et ça aide l'agriculteur de controler sa compost </p>
+        <p> Aussi le composteur peut controler tous les compost dans sa zone géographique . 
+           </p>
+           <p> L'inscription est utile pour bénificer de nos offres </p>
+
+      </div>
+    </div>
+
+    <div class="wrapper">
+      <h2>Réalisée par:</h2>
+      <div class="faculties">
+        
+        
+        <div class="unit">
+          <img src="{%static 'images\me.PNG'%}"  width="600px" />
+          <p>Nadine Sahli</p>
+          <p>Stagiaire du smart for green , étudiante en 3éme licence STIC en ISET'COM</p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</body>
+
+</html>
+  {% endblock %}

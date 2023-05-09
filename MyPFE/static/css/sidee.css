@@ -1,0 +1,33 @@
+@charset "utf-8";
+body {
+  margin: 0;
+  background-color: #EEEDE7;
+}
+.sidebar {
+  display: flex;
+  background: #41729F;
+  font-family: 'Raleway', sans-serif;
+	font-size: 0.8em;
+  flex-direction: column;
+  justify-content: space-between;
+  max-width: 150px;
+  height: 100vh;
+  border-right: 1px solid;
+}
+a {
+	text-decoration: none;
+	color: white;
+}
+a:hover {
+  border-bottom: 4px solid rgba(255,255,255,.5);
+}
+.item {
+  display: inline-flex;
+	text-transform: uppercase;
+  line-height: 20px;
+  padding: 10px 20px;
+  color: white;
+}
+.section {
+  padding: 10px;
+}

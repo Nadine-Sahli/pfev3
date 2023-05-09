@@ -1,0 +1,158 @@
+.texts {
+    margin-left: 0px;
+    margin-right: 500px ;
+    margin-top: 10px;
+    color: green;
+    
+}
+
+
+.back {
+
+    
+    background-color:#264653;
+}
+
+.containe {
+
+  position: relative;
+  width: 380px;
+  height: 420px;
+  background: whitesmoke;
+  border-radius: 8px;
+  
+  
+  
+  }
+  
+
+.container form {
+  position: absolute;
+  inset: 4px;
+
+  padding: 50px 40px;
+  border-radius: 8px;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+
+
+
+
+}
+
+.container form h1 {
+  color: black;
+  font-weight: 500;
+  text-align: center;
+  letter-spacing: 0.1em;
+
+}
+
+.log{
+  
+  margin-top: 40px ;
+  margin-left: 600px;
+  margin-right: 400px;
+
+
+  
+}
+.bg-img {
+
+  position: relative;
+  width: 380px;
+  height: 520px;
+  background: whitesmoke;
+  border-radius: 8px;
+
+
+}
+
+.rack {
+   background-color: #264653;
+}
+
+.contents {
+
+  
+  width: 580px;
+  height: 720px;
+  background: whitesmoke;
+  border-radius: 8px;
+
+
+  }
+
+.imag {
+  margin-left: 0px;
+  margin-right: 800px;
+}
+
+h2 {
+   
+  color: rgb(165, 165, 109);
+
+
+}
+ .col-md-7 {
+   
+  background-color: white;
+
+
+
+ }
+ .col-md-5 {
+  background-color: white;
+   
+ }
+
+ .col-md-7 {
+   
+  background-color: white;
+
+
+
+ }
+
+
+  .col-md-5 {
+  background-color: white;
+   
+ }
+
+ #global {
+  margin-left: auto;
+  margin-right: auto;
+  width: 1000px; /* largeur obligatoire pour être centré */
+}
+
+h6 {
+
+  margin-left: 200px;
+  
+}
+.colect {
+
+  margin-left: 50px;
+
+}
+.d {
+line-height: 4em;
+
+}
+
+.col-md-5 {
+  width: 600px;
+
+}
+
+h2 {
+  align-items: center;
+ 
+}
+
+
+
+
+
