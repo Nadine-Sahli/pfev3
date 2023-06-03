@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>W3.CSS</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>    
+  <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script> 
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</head>
+<body>
+
+<div class="w3-sidebar w3-bar-block w3-card w3-animate-left" style="display:none" id="mySidebar">
+  <button class="w3-bar-item w3-button w3-large" onclick="w3_close()">Close &times;</button>
+  <div class="card border-success mb-3" style="max-width: 40rem;">
+    <div class="card-header" style="background-color: #209591; color: #FFFFFF;"></div>
+     <div class="card-body" style="color: #209591;">
+      <h5 class="card-title">Créer un projet</h5>
+      <p class="card-text">Créer un autre projet supplémentaire, enrichissez votre liste.</p>
+     </div>
+     <div class="card-footer bg-transparent border-success">
+      <center>
+        <button type="button" class="btn">
+          <a href="{% url 'create_projet' %}" class="w3-bar-item w3-button" style="background-color: #209591; color: white;">Créer un projet</a>
+        </button>
+      </center>
+     </div>
+  </div>
+  <div class="card border-success mb-3" style="max-width: 40rem;">
+    <div class="card-header" style="background-color: #209591; color: #FFFFFF;"></div>
+     <div class="card-body" style="color: #209591;">
+      <h5 class="card-title">Liste des projets</h5>
+      <p class="card-text">Consulter, contrôler, supprimer et modifier votre liste de projets</p>
+     </div>
+     <div class="card-footer bg-transparent border-success">
+      <center>
+        <button type="button" class="btn">
+          <a href="{% url 'lister_projets' %}" class="w3-bar-item w3-button" style="background-color: #209591;color: white;">Liste des projets</a>
+        </button>
+      </center>
+     </div>
+  </div>
+</div>
+
+<div id="main">
+  <div class="w3-teal" style="display: flex; align-items: center;">
+    <button id="openNav" class="w3-button w3-teal w3-xlarge" onclick="w3_open()">&#9776;</button>
+    <div class="w3-container">
+      <div class="container" style="display: flex; justify-content: center;">
+        <a href="{% url 'home' %}" class="btn btn-transparent" role="button" style="margin-right: 30px; color: white;">Home</a>
+        <a href="/about" class="btn btn-transparent" role="button" style="margin-left: 30px; margin-right: 30px; color: white;">About Us</a>
+        <a href="/login" class="btn btn-transparent" role="button" onclick="logout()" style="color: white;">Log out</a>
+      </div>
+    </div>
+  </div>
+  
+  
+  </div>
+  
+  </div>
+  
+
+  <h1 style="text-align: center;">Bienvenue dans votre espace</h1>
+  <center>
+    <form method="POST">
+      {% csrf_token %}
+      <div class='col-6 rounded ' id="map" style="width: 1400px; height: 500px; box-sizing: border-box; margin-top: 20px; border-radius: 50px;">
+        <div class="leaflet-control"></div>
+      </div>
+      <br><br>
+    </form>
+  </center>
+</div>
+
+{% block content %}
+{% for projet in projets %}
+  <h2>{{ projet.Nom_projet }}</h2>
+  {% for node in projet.nodes_set.all %}
+    Latitude: {{ node.Latitude }}
+    Longitude: {{ node.Longitude }}
+    <!-- ... Add more node information as needed -->
+  {% endfor %}
+{% endfor %}
+{% endblock %}
+
+<script>
+  function w3_open() {
+    document.getElementById("main").style.marginLeft = "25%";
+    document.getElementById("mySidebar").style.width = "25%";
+    document.getElementById("mySidebar").style.display = "block";
+    document.getElementById("openNav").style.display = 'none';
+  }
+
+  function w3_close() {
+    document.getElementById("main").style.marginLeft = "0%";
+    document.getElementById("mySidebar").style.display = "none";
+    document.getElementById("openNav").style.display = "inline-block";
+  }
+
+  var map = L.map('map').setView([35, 9.5], 9);
+
+  L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+    attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  }).addTo(map);
+
+  {% for node in all_nodes %}
+  var marker = L.marker([{{node.Position.y}},{{node.Position.x}}]).addTo(map);
+  marker.bindPopup("<b>{{node.proj.Nom_projet}}</b><br><a href='{% url 'interface' id=node.id %}'>Détails du projet</a>").openPopup();
+  {% endfor %}
+
+  // Add click event listener to the map
+  map.on("click", function(e) {
+    // If marker is already defined, remove it before adding a new one
+    if (marker) {
+      map.removeLayer(marker);
+    }
+    // Add new marker at double-clicked location
+    var marker = L.marker(e.latlng).addTo(map);
+    marker.bindPopup("<b>New Marker</b><br>Latitude: " + e.latlng.lat + "<br>Longitude: " + e.latlng.lng).openPopup();
+  });
+
+  function removeAllMarkers() {
+    map.eachLayer(function(layer) {
+      if (layer instanceof L.Marker) {
+        map.removeLayer(layer);
+      }
+    });
+  }
+
+  // Retrieve all marker positions
+  function getMarkerPositions() {
+    var positions = [];
+    map.eachLayer(function(layer) {
+      if (layer instanceof L.Marker) {
+        positions.push(layer.getLatLng());
+      }
+    });
+    return positions;
+  }
+</script>
+</body>
+</html>

@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Graphiques de température et d'humidité</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://www.gstatic.com/charts/loader.js"></script>
+    <style>
+        #myChart {
+            width: 100%;
+            max-width: 600px;
+            height: 500px;
+        }
+
+        .alert-card {
+            display: none;
+            background-color: red;
+            padding: 10px;
+            margin-top: 10px;
+            color: white;
+        }
+
+        .charts-container {
+            display: flex;
+        }
+
+        .chart {
+            flex: 1;
+            margin-right: 10px;
+        }
+    </style>
+</head>
+<body>
+    <div class="charts-container">
+        <div class="chart">
+            <canvas id="temperatureChart"></canvas>
+        </div>
+        <div class="chart">
+            <canvas id="humidityChart"></canvas>
+            <div class="alert-card" id="alertCard"></div>
+        </div>
+    </div>
+    <div id="myChart"></div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Récupérer les valeurs de température et d'humidité depuis le contexte fourni par la vue
+            var temperatures = JSON.parse('{{ temperatures|safe }}');
+            var humidities = JSON.parse('{{ humidities|safe }}');
+
+            // Créer le graphique de température avec Chart.js
+            var temperatureCtx = document.getElementById('temperatureChart').getContext('2d');
+            var temperatureChart = new Chart(temperatureCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: temperatures.length}, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Température',
+                        data: temperatures,
+                        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                        borderColor: 'rgba(0, 123, 255, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    },
+                    plugins: {
+                        tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    var label = context.dataset.label || '';
+                                    if (label) {
+                                        label += ': ';
+                                    }
+                                    if (context.parsed.y > 19) {
+                                        label += 'Température élevée';
+                                        showTemperatureAlert();
+                                    } else {
+                                        label += context.parsed.y;
+                                    }
+                                    return label;
+                                }
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Créer le graphique d'humidité avec Chart.js
+            var humidityCtx = document.getElementById('humidityChart').getContext('2d');
+            var humidityChart = new Chart(humidityCtx, {
+                type: 'line',
+                data: {
+                    labels: Array.from({length: humidities.length}, (_, i) => i + 1),
+                    datasets: [{
+                        label: 'Humidité',
+                        data: humidities,
+                        backgroundColor: 'rgba(255, 123, 0, 0.5)',
+                        borderColor: 'rgba(255, 123, 0, 1)',
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+
+            google.charts.load('current', {'packages':['corechart']});
+            google.charts.setOnLoadCallback(drawChart);
+
+            function drawChart() {
+                const data = google.visualization.arrayToDataTable([
+                    ['Element', 'Percentage'],
+                    [' matériaux(riches en carbone', 60],
+                    ['Les matières riches en azote)', 30],
+                    ['divers matériaux', 10]
+                ]);
+
+                const options = {
+                    title: 'Composition pour un compost idéal',
+                    is3D: true
+                };
+
+                const chart = new google.visualization.PieChart(document.getElementById('myChart'));
+                chart.draw(data, options);
+            }
+
+            function showTemperatureAlert() {
+                var alertCard = document.getElementById('alertCard');
+                alertCard.style.display = "block";
+                alertCard.textContent = "Il faut refroidir votre compost !";
+            }
+        });
+    </script>
+</body>
+</html>

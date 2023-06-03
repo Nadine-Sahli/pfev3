@@ -1,0 +1,178 @@
+{% extends 'base.html' %} 
+
+{% block content %} 
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Markers Map</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    
+    <!-- Leaflet CSS and JS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.3/dist/leaflet.css" 
+    integrity="sha256-kLaT2GOSpHechhsozzB+flnD+zUyjE2LlfWPgU04xyI=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.3/dist/leaflet.js" 
+    integrity="sha256-WBkoXOwTeyKclOHuWtc+i2uENFpDZ9YPdf5Hf+D7ewM=" crossorigin=""></script>
+  
+    <!-- Leaflet Draw CSS and JS -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet.draw/1.0.4/leaflet.draw.js"></script>
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="{% static 'css/style.css' %}" />
+
+
+  </head>
+  <body   class="bg-img">
+    <div class="container-fluid">
+      <div class="row flex-nowrap">
+        <div class="col-3">
+           <!-- Sidebar -->
+           <div class="card mb-3">
+            <div class="card-header" style="background-color: #697887; border-bottom: 1px solid #cccccc; padding: 17px; text-align: center;">
+              <h5 class="card-title" style="color: #f0f3f7; font-size: 20px; font-weight: bold; background-color: #697887; margin-bottom: 0;">Projects</h5>
+            </div>
+            
+              
+            <div class="card shadow  example-1 square scrollbar-dusty-grass square thin" style="height:1000px;">
+            <div class="card-body" style="background-color: #C3B8B6;"> 
+              {% for project in projects %}
+              <div class="card mb-2 " style="background-color: #d4d6d8; display: flex; flex-direction: column; ">
+                <div class="card-body text-vert">
+                  <h6 class="card-subtitle mb-2 " style="text-align:center; color:#697887;">Prject name: {{ project.nom }}</h6>
+                  <h6 class="card-subtitle mb-2 " style="text-align:center; color:#697887;">Client name: {{ project.client }}</h6>
+                  <h6 class="card-subtitle mb-2 text-muted" style="text-align:center; color:rgb(5, 5, 5);">ID: {{ project.idProject }}</h6>
+                  <button class="btn btn-dark  mx-auto d-block" style=' background-color: #394855; color:white; font-size: 12px; border-radius:100px;' onclick="location.href='{% url 'polygon_detail' project.idProject %}'">View all detail</button>
+                </div>
+              </div>
+              {% endfor %}
+             </div>
+            
+          
+        </div>
+        
+            </div>
+         </div>       
+  
+
+         <form method="POST">
+           {% csrf_token %}
+           <div class="col-md-9 mt-6">
+            <div class="card">
+             
+           <div class="card-header text-center" style="background-color: #697887">
+            <h4 style="color: #fff;">Step 4 - Add Node</h4>
+           </div>
+           <div class="card-body"  style="background-color:  #d4d6d8;">
+               <div class="row" >
+                 <div class="col-md-5">
+                  <label for="project-name" style="font-size: 18px; font-weight: bold;">Node referance :</label>
+                  <input type="text" id="project-name" name="ref" class="form-control" placeholder="Enter Node referance">
+                 </div>
+                 <div class="col-md-5">
+                  <label for="project-name" style="font-size: 18px; font-weight: bold;">Sensors :</label>
+                  <input type="text" id="client" name="Sensors"  class="form-control" placeholder="Enter the Sensors type">
+                  
+                 </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-5">
+                   <label for="project-name" style="font-size: 18px; font-weight: bold;">Node range :</label>
+                   <input type="text" id="node_range" name="range" class="form-control" placeholder="Enter Node referance">
+                  </div>
+                  
+                  
+                 </div>
+                 
+                 <br>
+   
+
+               <div class="col-md-6" style="align-items: center;">
+
+                <div class="col-md-5">
+                  <button type="submit" style="width:30%; margin-left: 100; background-color:  #394855; color:white; font-size: 20px;border-radius:50px; margin-bottom: 10;">Save</button>
+                 </div>
+               
+            
+                <div class='col-6 rounded ' id="map" style="width: 1075px;height: 500px; box-sizing:border-box; margin-top: 20px;  border-radius: 50px; border: 1px solid rgb(9, 0, 0) ;">
+                  <input type="hidden" name="lat" id="lat">
+                  <input type="hidden" name='lng' id="lng">
+                  <div class="leaflet-control"></div>
+               </div>
+              <br>
+
+               
+             
+              <div style=" align-items: center;">
+                <label for="geom" style="font-size: 18px; font-weight: bold;">Geometry</label>
+                <div style="display: flex; align-items: center; margin-top: 10px;"></div>
+               <input type="text" id="geom" name="geom" value="{{ polygon.geom }}" readonly style="border-radius:50px;"><br><br>
+              </div></div>
+
+              
+
+           
+
+                
+
+              </div>
+            </div>  
+            </div>
+              
+          </form>
+        </div>
+       
+    </div>
+  </div>
+
+<script src="{% static 'js/map.js' %}"></script>
+
+<script>
+  var client = "{{ client }}";
+  var geojson_str = "{{ polygon.geom.json|escapejs }}";
+  var geojson = JSON.parse(geojson_str);
+  
+  // Create a Leaflet map
+  var map = L.map('map').setView([{{ polygon.geom.centroid.y }}, {{ polygon.geom.centroid.x }}], 5);
+  
+  
+  L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+          attribution: 'Tiles © Esri — Source: Esri, i-cubed, USDA, USGS, AEX, GeoEye, Getmapping, Aerogrid, IGN, IGP, UPR-EGP, and the GIS User Community'
+      }).addTo(map);
+  
+  // Add the GeoJSON polygon to the map
+  L.geoJSON(geojson).addTo(map);
+  
+  // Add the client name to the page
+  document.getElementById('client').innerHTML = client;
+  
+  {% for node in nodes %}
+    var marker = L.marker([{{ node.point.y }}, {{ node.point.x }}]).addTo(map);
+  {% endfor %}
+
+  
+  var marker;
+  map.on("click", function (e) {
+      // If marker is already defined, remove it before adding a new one
+      if (marker) {
+        map.removeLayer(marker);
+      }
+      // Add new marker at double-clicked location
+      marker = L.marker(e.latlng, { draggable: true }).addTo(map);
+      document.getElementById("lat").value = e.latlng.lat;
+      document.getElementById("lng").value = e.latlng.lng;
+  
+      marker.on("dragend", function (e) {
+        var marker = e.target;
+        var position = marker.getLatLng();
+        document.getElementById("lat").value = position.lat;
+        document.getElementById("lng").value = position.lng;
+      });
+    });
+
+
+  </script>
+</body>
+</html>
+
+{% endblock %}

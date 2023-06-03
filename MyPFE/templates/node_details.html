@@ -1,0 +1,124 @@
+<style>
+    /* Style pour le titre principal */
+    h1 {
+      font-size: 36px;
+      font-weight: bold;
+      text-align: center;
+      margin-top: 30px;
+      margin-bottom: 50px;
+      color: #007bff;
+      text-shadow: 2px 2px #ccc;
+    }
+  
+    /* Style pour les sous-titres */
+    h2 {
+      font-size: 24px;
+      font-weight: bold;
+      color: #333;
+      margin-top: 40px;
+      margin-bottom: 20px;
+    }
+  
+    /* Style pour les paragraphes de texte */
+    p {
+      font-size: 18px;
+      line-height: 1.5;
+      color: #555;
+      margin-bottom: 10px;
+    }
+  
+    /* Style pour les éléments de mise en évidence */
+    strong {
+      font-weight: bold;
+    }
+  
+    /* Style pour la section principale */
+    .main-section {
+      width: 80%;
+      margin: 0 auto;
+    }
+  
+    /* Style pour les blocs d'information du projet */
+    .project-block {
+      border: 1px solid #ccc;
+      padding: 20px;
+      margin-bottom: 50px;
+      border-radius: 5px;
+      box-shadow: 2px 2px #ccc;
+    }
+  
+    /* Style pour les étiquettes des champs de texte */
+    label {
+      display: block;
+      margin-bottom: 10px;
+      font-weight: bold;
+      color: #555;
+      font-size: 20px;
+    }
+  
+    /* Style pour les champs de texte */
+    input[type="text"], input[type="email"], input[type="tel"], textarea {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      box-sizing: border-box;
+      margin-bottom: 20px;
+      font-size: 18px;
+      color: #555;
+    }
+  
+    /* Style pour les boutons */
+    button {
+      background-color: #007bff;
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 3px;
+      cursor: pointer;
+      font-size: 20px;
+      margin-top: 20px;
+      box-shadow: 2px 2px #ccc;
+    }
+  
+    button:hover {
+      background-color: #0056b3;
+    }
+  
+    /* Style pour les liens */
+    a {
+      color: #007bff;
+      text-decoration: none;
+    }
+  
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+  
+  <div class="main-section">
+    <h1>Détails du noeud {{ node.Name }}</h1>
+    <div class="node-location">
+      <p><strong>Latitude:</strong> {{ node.Latitude }}</p>
+      <p><strong>Longitude:</strong> {{ node.Longitude }}</p>
+    </div>
+    <div class="project-details">
+      <div class="project-block">
+        <h2>Projet associé: {{ project.Nom_projet }}</h2>
+        <label for="nom">Nom:</label>
+        <p>{{ project.Nom }}</p>
+        <label for="prenom">Prénom:</label>
+        <p>{{ project.prenom }}</p>
+        <label for="email">Email:</label>
+        <p>{{ project.e_mail }}</p>
+        <label for="reference">Référence:</label>
+        <p>{{project.reference}}</p>
+        <label for="Date de début">Date de début</label>
+        <p>{{ project.start_date }}</p>
+        <label for="Date de fin">Date de fin</label>
+        <p> {{ project.end_date }}</p>
+        <label for="numéro de téléphone">Numéro de téléphone</label>
+        <p> {{ project.NB_GSM }}</p>
+    </div>
+  </div>
+  

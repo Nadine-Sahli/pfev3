@@ -1,0 +1,103 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Ajouter un projet</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.13.0/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.0/jquery-ui.min.js"></script>
+    <style>
+        body {
+            text-align: center;
+        }
+        form {
+            width: 600px;
+            margin: 0 auto;
+        }
+        .form-field {
+            margin-bottom: 10px;
+        }
+        .form-field label {
+            display: inline-block;
+            width: 150px;
+            text-align: right;
+            margin-right: 10px;
+        }
+        .form-field input {
+            width: 300px;
+        }
+        button {
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Modifier projet</h1>
+    <form method="POST" action="{% url 'update_projet' projet.id %}">
+        {% csrf_token %}
+        <!-- Ajoutez ici les champs de formulaire pour les attributs du projet -->
+        <div class="form-field">
+            <label for="Nom_projet">Nom du projet:</label>
+            <input type="text" name="Nom_projet" value="{{ projet.Nom_projet }}">
+        </div>
+        
+        <div class="form-field">
+            <label for="Nom">Nom:</label>
+            <input type="text" name="Nom" value="{{ projet.Nom }}">
+        </div>
+        
+        <div class="form-field">
+            <label for="prenom">Prénom:</label>
+            <input type="text" name="prenom" value="{{ projet.prenom }}">
+        </div>
+
+        <div class="form-field">
+            <label for="NB_GSM">GSM:</label>
+            <input type="text" name="NB_GSM" value="{{ projet.NB_GSM }}">
+        </div>
+
+        <div class="form-field">
+            <label for="pseudo">Pseudo:</label>
+            <input type="text" name="pseudo" value="{{ projet.pseudo }}">
+        </div>
+
+        <div class="form-field">
+            <label for="e_mail">Email:</label>
+            <input type="text" name="e_mail" value="{{ projet.e_mail}}">
+        </div>
+
+        <div class="form-field">
+            <label for="reference">Référence:</label>
+            <input type="text" name="reference" value="{{ projet.reference}}">
+        </div>
+
+        <div class="form-field">
+            <label for="password">password:</label>
+            <input type="text" name="password" value="{{ projet.password}}">
+        </div>
+
+        <div>
+            <button type="submit" class="btn btn-primary">Enregistrer</button>
+        </div>
+    </form>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script>
+        $( function() {
+            // Initialize start_date datepicker
+            $( "#start_date" ).datepicker({
+                onSelect: function(selectedDate) {
+                    // When start_date is selected, set the minimum date for end_date to be the same or later
+                    $( "#end_date" ).datepicker( "option", "minDate", selectedDate );
+                }
+            });
+    
+            // Initialize end_date datepicker with a minimum date set to start_date value
+            $( "#end_date" ).datepicker({
+                minDate: $( "#start_date" ).val()
+            });
+        } );
+    </script> 
+    
+</body>
+</html>

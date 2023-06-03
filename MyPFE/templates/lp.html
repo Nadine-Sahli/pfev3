@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Bootstrap Example</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+</head>
+<body>
+
+<div class="container">
+  <h2>Liste des projets:</h2>
+              
+  <table class="table table-bordered">
+    <thead>
+        <tr class="success">
+            <th class="header nom-projet-header" data-column="Nom_projet">Nom du projet</th>
+            <th class="header nom-header" data-column="Nom">Nom</th>
+            <th class="header prenom-header" data-column="prenom">Prénom</th>
+            <th class="header nb-gsm-header" data-column="NB_GSM">Nombre GSM</th>
+            <th class="header pseudo-header" data-column="pseudo">Pseudo</th>
+            <th class="header e-mail-header" data-column="e_mail">Email</th>
+            <th class="header reference-header" data-column="reference">Référence</th>
+            <th class="header password-header" data-column="password">Password</th>
+            <th class="header id-header" data-column="id">id</th>
+            <th class="header start-date-header" data-column="start_date">Date de début</th>
+            <th class="header end-date-header" data-column="end_date">Date de fin</th>
+            <th class="header end-date-header" data-column="end_date">Consulter</th>
+            <th class="header end-date-header" data-column="end_date">Supprimer</th>
+            <th class="header end-date-header" data-column="end_date">Modifier</th>
+          </tr>
+    </thead>
+    <tbody>
+        {% for projet in projets %}
+        <tr>
+          <td class="nom-projet-cell">{{ projet.Nom_projet }}</td>
+          <td class="nom-cell">{{ projet.Nom }}</td>
+          <td class="prenom-cell">{{ projet.prenom }}</td>
+          <td class="nb-gsm-cell">{{ projet.NB_GSM }}</td>
+          <td class="pseudo-cell">{{ projet.pseudo }}</td>
+          <td class="e-mail-cell">{{ projet.e_mail }}</td>
+          <td class="reference-cell">{{ projet.reference }}</td>
+          <td class="password-cell">{{ projet.password }}</td>
+          <td class="id-cell">{{ projet.id }}</td>
+          <td class="start-date-cell">{{ projet.start_date }}</td>
+          <td class="end-date-cell">{{ projet.end_date }}</td>
+		  <td ><a type= "button" class = "btn btn-dark "href="{% url 'interface' projet.id  %}">consult</a></td>
+          <td>
+			<form method="POST" action="{% url 'delete_projet' projet.id %}">
+				{% csrf_token %}
+				<button type="submit" class="btn btn-danger">Supprimer</button>
+			</form>
+		  </td>
+		  <td>
+			<a href="{% url 'edit_projet' projet.id %}" class="btn btn-primary">Modifier</a>
+		 </td>
+		</tr>
+      {% empty %}
+        <tr>
+          <td colspan="11">Aucun projet trouvé.</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+
+</body>
+</html>

@@ -24,7 +24,7 @@ urlpatterns = [
     path('', include("registre.urls")),
     path('', include("map.urls")),
     path('', include("about.urls")), 
-    path('', include("MQTT.urls")), 
+    # path('', include("MQTT.urls")), 
 ]
 
 if settings.DEBUG:

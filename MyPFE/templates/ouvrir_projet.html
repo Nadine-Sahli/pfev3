@@ -454,21 +454,42 @@ label {
       <div class="sign-in" id="sign-in">
         <h1>Bonjour!</h1>
         <p>Si vous cherchez à ouvrir votre projet, Il vous suffit de mettre vos informations et de cliquer sur le bouton "Ouvrir Projet"
-          Pas de compte?
+          Informations sur la composition du compost?
         </p>
-        <button class="switch-button" id="slide-right-button">creer un projet</button>
+        <button class="switch-button" id="slide-right-button">Informations</button>
       </div>
       <div class="sign-up" id="sign-up">
-        <h1>Salut</h1>
-        <p>creer un projet ,
-          un projet exist ?
+        <h1>votre Compost doit composer par</h1>
+        <p>Matières riches en carbone (matières brunes) 
+          <br>
+          Matières riches en azote (matières vertes) 
+          <br>
+         Autres matières 
+
+
         </p>
         <button class="switch-button" id="slide-left-button">ouvrir projet</button>
       </div>
     </div>
     <div class="form">
       <div class="sign-in" id="sign-in-info">
-        <h1>Creer projet</h1>
+        <p><span style="color: rgb(17, 188, 240);">Matières riches en carbone (matières brunes)</span>
+
+          Feuilles mortes
+          Paille
+          Branches et écorces d'arbres
+          Sciure de bois
+          <br>
+          <span style="color: rgb(17, 188, 240);"> Matières riches en azote (matières vertes) :</span>
+          <br>
+Déchets de cuisine (restes de légumes et de fruits, marc de café, coquilles d'œufs)
+Déchets de jardin (herbe coupée, mauvaises herbes non en graines)
+Résidus de plantes
+<br>
+<span style="color: rgb(17, 188, 240);">Autres matières :</span>
+<br>
+Déchets de jardin en graines (évitez de mettre des mauvaises herbes en graines)
+Résidus de culture (plantes entières après récolte)
         <div class="social-media-buttons">
           <div class="icon">
             <svg viewBox="0 0 24 24">
@@ -493,7 +514,7 @@ label {
           <p class="forgot-password">Forgot your password?</p>
           <button class="control-button in">Sign In</button>
         </form> -->
-        <a href="{% url 'create_projet' %}" class="button-link">Créer un projet</a>
+        
       </div>
       <div class="sign-up" id="sign-up-info">
         <h1>Ouvrir Projet</h1>
@@ -517,7 +538,6 @@ label {
         <p class="small">mettez vos informations:</p>
         <form method="post" id="sign-up-form">
           {% csrf_token %}
-  
           <input type="text" name="nom_projet" placeholder="Entrer le nom du projet" >
           <input type="text" name="nom_client" placeholder="Entrer le nom du client" >
           <input type="password" name="password" placeholder="Entrer le mot de passe">

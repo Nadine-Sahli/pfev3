@@ -45,48 +45,17 @@
 
   </head>
   <body  style="background-color:#071b24; ">
-    <!-- <article>
-      color: white; /* set text color */
-      background-color: #555; /* set background color */
-      padding: 20px; /* add padding for better readability */
-      <h1><a href="{% url 'update' %}"">Update</a></h1>
-      <h1>{{ post.title }}</h1>
-      <p>Published: {{ post.published_date }}</p>
-      <p>Temperature: {{ post.temperature }}</p>
-      <p>Humidity: {{ post.humidity }}</p>
-      <p>{{ post.content }}</p>
-    
-    </article> -->
-
-    <!-- <div class="side-panel" id="side-panel">
-      <div id="sidepanel-heading" class="heading">
-        <span id="content-heading">USER PROFILE</span>
-      </div>
-      <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <a href="{% url 'create_projet' %}" class="btn btn-primary">ajouter un projet</a>
-          </div>
-        </div>
-        <div class="card" style="width: 18rem;">
-          <div class="card-body">
-            <a href="{% url 'open' %}"class="btn btn-primary">voir project</a>
-          </div>
-        </div>
-        
+   
         
           
 
  
           
 
-          <div class="card" style="width: 18rem;">
-            <div class="card-body">
-              <a href="{% url 'lister_projets' %}" class="btn btn-primary">Liste des projets</a>
-            </div>
-          </div>
+         
         
           
-      <div data-position="left" class="side-bar">
+      <!-- <div data-position="left" class="side-bar">
         <div class="item"><i class="fa fa-user"></i></div>
         <div class="item"><i class="fa fa-users"></i></div>
         <div class="item"><i class="fa fa-comments-o"></i></div>
@@ -95,7 +64,7 @@
     
         <div class="item bottom" id="show_hide"><i class="fa fa-angle-double-right"></i></div>
       </div>
-    </div> -->
+    </div> --> 
 
     <center>
       <form method="POST">
@@ -114,6 +83,9 @@
 
                 <label for="lng">Longitude:</label>
                 <input type="text" id="lng" name="Longitude">
+
+                <label for="reference">Référence:</label>
+                <input type="text" id="reference" name="reference"><br><br>
 
         <button class="btn btn-dark  mx-auto d-block" style='  font-size: 15px; background-color: darkgreen;' onclick="location.href='#'"> save node</button> 
         

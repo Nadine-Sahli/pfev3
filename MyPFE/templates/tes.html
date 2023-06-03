@@ -125,9 +125,45 @@
   width: 18rem;
   margin: 1rem; 
  }
+ .sidebar2 {
+  width: 25%;
+  float: right;
+  margin-left: 20px;
+}
+
+.card-container {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.card {
+  border: 1px solid #ddd;
+  margin-bottom: 10px;
+}
+
+.card-title {
+  margin-bottom: 0;
+}
+
+.card-text {
+  margin-top: 5px;
+  margin-bottom: 10px;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: #fff;
+  border: none;
+}
+
+.btn-primary:hover {
+  background-color: #0069d9;
+}
 
   </style>
   </head>
+  <body>
   <h1 style="text-align: center;">Bienvenue dans votre espace</h1>
   <center>
     <form method="POST">
@@ -142,12 +178,14 @@
      
 <br><br>
     </form>
+     
   </center>
-  
+  <div id="node-details"></div>
   <div class="sidebar1">
     <div class="section">
       <nav>
         <ul class="card-container"> 
+         
           <div class="card" style="width: 18rem;">
             <div class="card-body">
               <li>
@@ -179,71 +217,203 @@
       </nav>
     </div>
   </div>
+  
+<div class="sidebar2">
+  <ul class="card-containerr"> 
+{% for node in all_nodes %}
+          <div class="col-md-3">
+           <div class="card">
+            <div class="card-body"> 
+              <h5 class="card-title">Node {{ node.proj.Nom_projet}}</h5>
+               <p class="card-text">Latitude: {{ node.Latitude }}<br>Longitude: {{ node.Longitude }}</p>
+               <a href="{% url 'node_detail' node.pk %}" class="btn btn-primary">Details</a>
+            </div>
+          </div>
+        </div>
+        <div class="node" id="node-{{ node.id }}">
+          <h2>{{ node.name }}</h2>
+          <p>{{ node.description }}</p>
+       </div>
+    {% endfor %}
+</ul>
+</div>
   <script>
     
     
-    // Create a Leaflet map
-    var map = L.map('map').setView([35, 9.5], 8 );
+  //   // Create a Leaflet map
+  //   var map = L.map('map').setView([35, 9.5], 8 );
     
     
-    L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
-          attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
-      }).addTo(map);
+  //   L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  //         attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+  //     }).addTo(map);
 
-      // Loop through all the markers and create a new marker for each one
+  //     // Loop through all the markers and create a new marker for each one
      
 
      
-    {% for nodes in all_nodes %}
-     var marker = L.marker([{{nodes.Position.y}},{{nodes.Position.x}}]).addTo(map);
-     marker.bindPopup("<b>{{nodes.Client}}</b><br>Température : {{nodes.Temperature}}<br>Humidité : {{nodes.Humidity}}").openPopup();
-    {% endfor %}
+  //   {% for nodes in all_nodes %}
+  //    var marker = L.marker([{{nodes.Position.y}},{{nodes.Position.x}}]).addTo(map);
+  //    marker.bindPopup("<b>{{nodes.Client}}</b><br>Température : {{nodes.Temperature}}<br>Humidité : {{nodes.Humidity}}").openPopup();
+  //   {% endfor %}
 
     
-    // Add the GeoJSON polygon to the map
+  //   // Add the GeoJSON polygon to the map
     
     
-    // Add the client name to the page
+  //   // Add the client name to the page
     
     
     
     
-    var markers = [];
-    map.on("click", function (e) {
-        // If marker is already defined, remove it before adding a new one
-        if (marker) {
-          map.removeLayer(marker);
-        }
-        // Add new marker at double-clicked location
-        // = L.marker(e.latlng, { draggable: true }).addTo(map);
-        var marker;
-        markers.push(marker);
-        document.getElementById("lat").value = e.latlng.lat;
-        document.getElementById("lng").value = e.latlng.lng;
+  //   var markers = [];
+  //   map.on("click", function (e) {
+  //       // If marker is already defined, remove it before adding a new one
+  //       if (marker) {
+  //         map.removeLayer(marker);
+  //       }
+  //       // Add new marker at double-clicked location
+  //       // = L.marker(e.latlng, { draggable: true }).addTo(map);
+  //       var marker;
+  //       markers.push(marker);
+  //       document.getElementById("lat").value = e.latlng.lat;
+  //       document.getElementById("lng").value = e.latlng.lng;
     
-        marker.on("dragend", function (e) {
-          var marker = e.target;
-          var position = marker.getLatLng();
-          document.getElementById("lat").value = position.lat;
-          document.getElementById("lng").value = position.lng;
-        });
-      });
-      function removeAllMarkers() {
-        for (var i = 0; i < markers.length; i++) {
-          map.removeLayer(markers[i]);
-        }
-        markers = [];
-      }
+  //       marker.on("dragend", function (e) {
+  //         var marker = e.target;
+  //         var position = marker.getLatLng();
+  //         document.getElementById("lat").value = position.lat;
+  //         document.getElementById("lng").value = position.lng;
+  //       });
+  //     });
+  //     function removeAllMarkers() {
+  //       for (var i = 0; i < markers.length; i++) {
+  //         map.removeLayer(markers[i]);
+  //       }
+  //       markers = [];
+  //     }
     
-      // Retrieve all marker positions
-      function getMarkerPositions() {
-        var Positions = [];
-        for (var i = 0; i < markers.length; i++) {
-          Positions.push(markers[i].getLatLng());
-        }
-        return Positions;
-      }
+  //     // Retrieve all marker positions
+  //     function getMarkerPositions() {
+  //       var Positions = [];
+  //       for (var i = 0; i < markers.length; i++) {
+  //         Positions.push(markers[i].getLatLng());
+  //       }
+  //       return Positions;
+  //     }
       
+      
+  //  // Obtenez tous les nœuds
+  //  const nodes = document.querySelectorAll('.node');
+
+  //  // Ajouter un écouteur d'événements "click" à chaque nœud
+  //  nodes.forEach(node => {
+  //     node.addEventListener('click', () => {
+  //        const nodeId = node.id.split('-')[1]; // obtenir l'ID du noeud à partir de son identifiant unique
+  //        getNodeDetails(nodeId); // appeler la fonction pour afficher les détails du noeud
+  //     });
+  //  });
+
+  //  // Fonction pour récupérer les détails du noeud depuis le serveur
+  //  function getNodeDetails(nodeId) {
+  //     fetch(`/node-details/${nodeId}/`) // envoyer une requête GET au serveur
+  //        .then(response => response.json()) // convertir la réponse en JSON
+  //        .then(data => {
+  //           // Afficher les détails du noeud
+  //           const nodeDetails = document.getElementById('node-details');
+  //           nodeDetails.innerHTML = `
+  //              <h2>${data.node.name}</h2>
+  //              <p>${data.node.description}</p>
+  //              <p>${data.project.name}</p>
+  //           `;
+  //        })
+  //        .catch(error => console.error(error)); // gérer les erreurs
+  //  }
+  // Create a Leaflet map
+var map = L.map('map').setView([35, 9.5], 8);
+
+L.tileLayer('http://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {
+  attribution: '&copy; <a href="http://osm.org/copyright">OpenStreetMap</a> contributors'
+}).addTo(map);
+
+// Loop through all the markers and create a new marker for each one
+{% for node in all_nodes %}
+var marker = L.marker([{{node.Position.y}},{{node.Position.x}}]).addTo(map);
+marker.bindPopup("<b>{{node.proj.Nom_projet}}</b><br>Température : {{node.Temperature}}<br>Humidité : {{node.Humidity}}").openPopup();
+{% endfor %}
+
+// Add the GeoJSON polygon to the map
+
+// Add the client name to the page
+
+var markers = [];
+
+// Add click event listener to the map
+map.on("click", function(e) {
+  // If marker is already defined, remove it before adding a new one
+  if (marker) {
+    map.removeLayer(marker);
+  }
+  // Add new marker at double-clicked location
+  // = L.marker(e.latlng, { draggable: true }).addTo(map);
+  var marker;
+  markers.push(marker);
+  document.getElementById("lat").value = e.latlng.lat;
+  document.getElementById("lng").value = e.latlng.lng;
+
+  marker.on("dragend", function(e) {
+    var marker = e.target;
+    var position = marker.getLatLng();
+    document.getElementById("lat").value = position.lat;
+    document.getElementById("lng").value = position.lng;
+  });
+});
+
+function removeAllMarkers() {
+  for (var i = 0; i < markers.length; i++) {
+    map.removeLayer(markers[i]);
+  }
+  markers = [];
+}
+
+// Retrieve all marker positions
+function getMarkerPositions() {
+  var Positions = [];
+  for (var i = 0; i < markers.length; i++) {
+    Positions.push(markers[i].getLatLng());
+  }
+  return Positions;
+}
+
+// Get all nodes
+// Obtenez tous les nœuds
+const nodes = document.querySelectorAll('.node');
+
+// Ajouter un écouteur d'événements "click" à chaque nœud
+nodes.forEach(node => {
+   node.addEventListener('click', () => {
+      const nodeId = node.id.split('-')[1]; // obtenir l'ID du noeud à partir de son identifiant unique
+      getNodeDetails(nodeId); // appeler la fonction pour afficher les détails du noeud
+   });
+});
+
+// Fonction pour récupérer les détails du noeud depuis le serveur
+function getNodeDetails(nodeId) {
+   fetch(`/nodes/${nodeId}/`) // envoyer une requête GET au serveur
+      .then(response => response.json()) // convertir la réponse en JSON
+      .then(data => {
+         // Afficher les détails du noeud
+         const nodeDetails = document.getElementById('node-details');
+         nodeDetails.innerHTML = `
+            <h2>${data.node.name}</h2>
+            <p>${data.node.description}</p>
+            <p>${data.project.name}</p>
+         `;
+      })
+      .catch(error => console.error(error)); // gérer les erreurs
+}
+
+
 
 
     </script>
