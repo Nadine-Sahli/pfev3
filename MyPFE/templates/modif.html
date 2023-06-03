@@ -4,8 +4,8 @@
   <style>
     @import "compass/css3";
 
-$padding-horizontal:20px;
-$highlight-color:#16abf0;
+ /* padding-horizontal:20px; */
+ /* highlight-color:#16abf0; */
 body{
   background:#34495e;
   color:white;
@@ -25,7 +25,7 @@ form{
   background:white;
   border-radius:10px;
   margin-bottom:20px;
-  //padding:20px;
+  padding:20px;
 }
 input, .floating-placeholder{
   font-family:Helvetica, Arial, sans-serif;
@@ -37,7 +37,7 @@ input, .floating-placeholder{
   width:100%;
 }
 .floating-placeholder input:focus+label{
-  color:$highlight-color;
+  color:hotpink;
 }
 .floating-placeholder input[value]+label{
   color:red;
@@ -57,7 +57,7 @@ input, .floating-placeholder{
   background:transparent;
   z-index:2;
   border-bottom:1px solid #ccc;
-  text-indent:$padding-horizontal;
+  /* text-indent:$padding-horizontal; */
 }
 
 .floating-placeholder:last-child input{
@@ -67,17 +67,17 @@ input, .floating-placeholder{
   display:block;
   position:absolute;
   top:0;
-  left:$padding-horizontal;
+  /* left:$padding-horizontal; */
   font-size:20pt;
   z-index:1;
-  @include transform-origin(0,0.0em);
-  @include transition(transform 160ms, color 200ms);
-  @include transform(scale(1,1) rotateY(0));
+  /* @include transform-origin(0,0.0em); */
+  /* @include transition(transform 160ms, color 200ms); */
+  /* @include transform(scale(1,1) rotateY(0)); */
   color:#999;
 }
-.floating-placeholder-float label{
-  @include transform(scale(0.55,0.55) rotateY(0));
-}
+/* .floating-placeholder-float label{
+  /* @include transform(scale(0.55,0.55) rotateY(0)); */
+  
 .floating-placeholder-float input{
   line-height:3.4em;
 }
